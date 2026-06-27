@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>歐元匯率換算器 · EUR FX Converter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202e;
+    --ink-soft:#475063;
+    --paper:#f6f2e9;
+    --paper-2:#efe9da;
+    --line:#d8cfba;
+    --eu-blue:#0b3a8c;
+    --eu-blue-deep:#072a66;
+    --gold:#c79a35;
+    --gold-soft:#e9d9a8;
+    --pos:#1d6b4f;
+    --shadow:0 1px 0 #fff inset, 0 18px 40px -24px rgba(7,42,102,.45);
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    --serif:'Noto Serif TC',serif;
+    --sans:'Noto Sans TC',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 100% -10%, rgba(11,58,140,.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(199,154,53,.10), transparent 55%),
+      var(--paper);
+    min-height:100%;
+    -webkit-font-smoothing:antialiased;
+    padding:28px 18px 56px;
+    display:flex;justify-content:center;
+  }
+  .wrap{width:100%;max-width:760px}
+
+  /* ---- header ---- */
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .star{
+    width:54px;height:54px;border-radius:14px;flex:none;
+    background:linear-gradient(155deg,var(--eu-blue),var(--eu-blue-deep));
+    display:grid;place-items:center;color:var(--gold);
+    box-shadow:0 10px 24px -12px rgba(7,42,102,.7);
+    position:relative;
+  }
+  .star svg{width:30px;height:30px}
+  h1{font-family:var(--serif);font-weight:900;font-size:25px;letter-spacing:.3px;line-height:1.05}
+  h1 small{display:block;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:3px;color:var(--ink-soft);margin-top:5px;text-transform:uppercase}
+  .status{
+    text-align:right;font-size:12px;color:var(--ink-soft);line-height:1.5;
+    font-family:var(--mono);max-width:230px
+  }
+  .status .src{color:var(--eu-blue);font-weight:700}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink-soft);margin-right:5px;vertical-align:middle}
+  .dot.live{background:var(--pos);box-shadow:0 0 0 3px rgba(29,107,79,.18)}
+  .dot.local{background:var(--gold)}
+
+  /* ---- toolbar ---- */
+  .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+  button.refresh{
+    font-family:var(--sans);font-weight:700;font-size:13.5px;color:#fff;cursor:pointer;
+    background:linear-gradient(160deg,var(--eu-blue),var(--eu-blue-deep));
+    border:none;border-radius:11px;padding:11px 16px;letter-spacing:.5px;
+    box-shadow:0 12px 22px -14px rgba(7,42,102,.9);transition:transform .12s, filter .12s;
+    display:inline-flex;align-items:center;gap:8px
+  }
+  button.refresh:hover{filter:brightness(1.07)}
+  button.refresh:active{transform:translateY(1px)}
+  button.refresh[disabled]{opacity:.6;cursor:wait}
+  .spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:sp .7s linear infinite;display:none}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  button.refresh.loading .spin{display:inline-block}
+  .hint{font-size:12px;color:var(--ink-soft)}
+
+  /* ---- EUR base card ---- */
+  .base{
+    background:linear-gradient(165deg,#fffdf7,#f4eedd);
+    border:1px solid var(--line);border-radius:18px;padding:18px 20px;
+    box-shadow:var(--shadow);margin-bottom:14px;
+    display:flex;align-items:center;gap:16px
+  }
+  .base .lab{flex:none}
+  .base .flag{font-family:var(--serif);font-weight:900;font-size:30px;color:var(--eu-blue);line-height:1}
+  .base .nm{font-size:12.5px;color:var(--ink-soft);margin-top:3px;letter-spacing:1px}
+  .base .field{flex:1;text-align:right}
+  .base input{
+    width:100%;text-align:right;border:none;background:transparent;
+    font-family:var(--mono);font-weight:700;font-size:34px;color:var(--ink);
+    letter-spacing:.5px;outline:none;
+  }
+  .base .ccy{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;letter-spacing:2px;margin-top:2px}
+
+  /* ---- grid ---- */
+  .grid{background:#fffdf8;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+  .ghead{
+    display:grid;grid-template-columns:1.4fr 1fr 1.5fr;gap:6px;
+    padding:11px 18px;background:var(--eu-blue-deep);color:#dfe7f5;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase
+  }
+  .ghead span:nth-child(2),.ghead span:nth-child(3){text-align:right}
+  .row{
+    display:grid;grid-template-columns:1.4fr 1fr 1.5fr;gap:6px;align-items:center;
+    padding:10px 18px;border-top:1px solid var(--paper-2);transition:background .15s
+  }
+  .row:hover{background:var(--paper)}
+  .cinfo{display:flex;align-items:center;gap:10px;min-width:0}
+  .badge{
+    width:34px;height:24px;border-radius:6px;flex:none;display:grid;place-items:center;
+    font-family:var(--mono);font-weight:700;font-size:10px;color:#fff;letter-spacing:.5px;
+    background:linear-gradient(160deg,#5a6577,#3a4250)
+  }
+  .cname{font-size:13.5px;font-weight:500;line-height:1.15;min-width:0}
+  .cname b{font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-weight:500;display:block}
+  .rate-cell,.amt-cell{position:relative}
+  .rate-cell input,.amt-cell input{
+    width:100%;text-align:right;border:1px solid transparent;border-radius:8px;
+    background:transparent;font-family:var(--mono);font-weight:500;color:var(--ink);
+    padding:7px 9px;outline:none;transition:border-color .15s,background .15s
+  }
+  .rate-cell input{font-size:13px;color:var(--ink-soft)}
+  .amt-cell input{font-size:16px;font-weight:700}
+  .rate-cell input:hover,.amt-cell input:hover{background:#fff}
+  .rate-cell input:focus,.amt-cell input:focus{border-color:var(--eu-blue);background:#fff;color:var(--ink)}
+  .amt-cell input:focus{box-shadow:0 0 0 3px rgba(11,58,140,.1)}
+
+  /* ---- footer ---- */
+  .foot{margin-top:18px;font-size:11.5px;color:var(--ink-soft);line-height:1.7}
+  .foot .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--eu-blue);border:1px solid var(--line);border-radius:6px;padding:2px 7px;margin-right:6px}
+  .foot a{color:var(--eu-blue)}
+  @media(max-width:560px){
+    .base input{font-size:27px}
+    .ghead,.row{grid-template-columns:1.25fr .9fr 1.3fr;padding-left:13px;padding-right:13px}
+    .cname{font-size:12.5px}
+    h1{font-size:21px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="star" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3 7.2 16.7l.9-5.4L4.2 7.7l5.4-.8L12 2z"/></svg>
+      </div>
+      <h1>歐元匯率換算器<small>EUR FX Converter</small></h1>
+    </div>
+    <div class="status" id="status">
+      <span class="dot local" id="dot"></span><span id="statusMain">尚未更新</span><br>
+      <span id="statusSub">資料來源：內建參考價</span>
+    </div>
+  </header>
+
+  <div class="bar">
+    <button class="refresh" id="refreshBtn">
+      <span class="spin"></span>
+      <span id="refreshTxt">更新即時匯率</span>
+    </button>
+    <span class="hint">點任一金額或匯率欄位即可直接編輯，所有幣別會同步換算。</span>
+  </div>
+
+  <!-- EUR base -->
+  <div class="base">
+    <div class="lab">
+      <div class="flag">€</div>
+      <div class="nm">歐元 EURO</div>
+    </div>
+    <div class="field">
+      <input id="eurInput" type="text" inputmode="decimal" value="1,000.00" aria-label="歐元金額">
+      <div class="ccy">EUR · 1 EUR = ?</div>
+    </div>
+  </div>
+
+  <!-- currency grid -->
+  <div class="grid">
+    <div class="ghead">
+      <span>幣別</span>
+      <span>匯率 (1 EUR =)</span>
+      <span>換算金額</span>
+    </div>
+    <div id="rows"></div>
+  </div>
+
+  <div class="foot">
+    <p><span class="tag">參考用途</span>顯示為中間參考價（mid rate），實際成交以即時報價或央行公告為準；正式公文與永豐報表請勿直接引用。</p>
+    <p style="margin-top:6px">即時匯率來源：<a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">open.er-api.com</a>（以歐元為基準，含新台幣）。若取得失敗將自動套用內建參考價，匯率欄位可手動覆寫為你的交易報價。</p>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // 幣別設定：代碼、中文名、金額小數位、匯率小數位
+  const CCYS = [
+    {c:'TWD', n:'新台幣',   amtDp:2, rateDp:4},
+    {c:'USD', n:'美元',     amtDp:2, rateDp:4},
+    {c:'JPY', n:'日圓',     amtDp:0, rateDp:2},
+    {c:'CNY', n:'人民幣',   amtDp:2, rateDp:4},
+    {c:'GBP', n:'英鎊',     amtDp:2, rateDp:4},
+    {c:'CHF', n:'瑞士法郎', amtDp:2, rateDp:4},
+    {c:'HKD', n:'港幣',     amtDp:2, rateDp:4},
+    {c:'AUD', n:'澳幣',     amtDp:2, rateDp:4},
+    {c:'SGD', n:'新加坡幣', amtDp:2, rateDp:4},
+    {c:'KRW', n:'韓元',     amtDp:0, rateDp:2},
+    {c:'CAD', n:'加幣',     amtDp:2, rateDp:4},
+    {c:'NZD', n:'紐幣',     amtDp:2, rateDp:4},
+  ];
+
+  // 內建參考價（1 EUR =），約 2026/6/24-25；取得即時匯率失敗時使用
+  const FALLBACK = {
+    TWD:36.00, USD:1.1340, JPY:183.35, CNY:7.70, GBP:0.8617, CHF:0.9202,
+    HKD:8.85, AUD:1.6503, SGD:1.48, KRW:1560, CAD:1.61, NZD:2.01
+  };
+
+  let rates = Object.assign({}, FALLBACK);
+  let eur = 1000;            // EUR 基準金額
+  let activeEl = null;       // 正在編輯的欄位（避免覆寫游標）
+
+  const $ = id => document.getElementById(id);
+  const rowsEl = $('rows');
+  const eurInput = $('eurInput');
+
+  const fmt = (v, dp) => {
+    if(!isFinite(v)) return '0';
+    return Number(v).toLocaleString('en-US',{minimumFractionDigits:dp, maximumFractionDigits:dp});
+  };
+  const parseNum = s => {
+    const n = parseFloat(String(s).replace(/[^0-9.\-]/g,''));
+    return isNaN(n)?0:n;
+  };
+
+  // 建立列
+  CCYS.forEach(o=>{
+    const row = document.createElement('div');
+    row.className='row';
+    row.innerHTML = `
+      <div class="cinfo">
+        <div class="badge">${o.c}</div>
+        <div class="cname">${o.n}<b>${o.c}</b></div>
+      </div>
+      <div class="rate-cell">
+        <input type="text" inputmode="decimal" data-rate="${o.c}" aria-label="${o.n}匯率">
+      </div>
+      <div class="amt-cell">
+        <input type="text" inputmode="decimal" data-amt="${o.c}" aria-label="${o.n}金額">
+      </div>`;
+    rowsEl.appendChild(row);
+  });
+
+  // 渲染（不覆寫使用者正在輸入的欄位）
+  function render(){
+    if(activeEl !== eurInput) eurInput.value = fmt(eur,2);
+    CCYS.forEach(o=>{
+      const rEl = document.querySelector(`[data-rate="${o.c}"]`);
+      const aEl = document.querySelector(`[data-amt="${o.c}"]`);
+      if(rEl !== activeEl) rEl.value = fmt(rates[o.c], o.rateDp);
+      if(aEl !== activeEl) aEl.value = fmt(eur * rates[o.c], o.amtDp);
+    });
+  }
+
+  // EUR 輸入
+  eurInput.addEventListener('focus', e=>activeEl=e.target);
+  eurInput.addEventListener('input', e=>{ eur = parseNum(e.target.value); render(); });
+  eurInput.addEventListener('blur', ()=>{ activeEl=null; render(); });
+
+  // 各幣別金額 / 匯率輸入
+  rowsEl.addEventListener('focus', e=>{ if(e.target.matches('input')) activeEl=e.target; }, true);
+  rowsEl.addEventListener('blur', e=>{ if(e.target.matches('input')){ activeEl=null; render(); } }, true);
+  rowsEl.addEventListener('input', e=>{
+    const t=e.target;
+    if(t.dataset.amt){
+      const c=t.dataset.amt, v=parseNum(t.value);
+      if(rates[c]>0){ eur = v / rates[c]; render(); }
+    } else if(t.dataset.rate){
+      const c=t.dataset.rate;
+      rates[c] = parseNum(t.value);
+      const aEl=document.querySelector(`[data-amt="${c}"]`);
+      if(aEl!==activeEl) aEl.value = fmt(eur*rates[c], CCYS.find(x=>x.c===c).amtDp);
+    }
+  });
+
+  // 取得即時匯率
+  const btn=$('refreshBtn'), btnTxt=$('refreshTxt');
+  const dot=$('dot'), sMain=$('statusMain'), sSub=$('statusSub');
+
+  function setStatus(mode, main, sub){
+    dot.className='dot '+(mode==='live'?'live':'local');
+    sMain.textContent=main; sSub.innerHTML=sub;
+  }
+
+  async function fetchRates(){
+    btn.classList.add('loading'); btn.disabled=true; btnTxt.textContent='更新中…';
+    try{
+      const res = await fetch('https://open.er-api.com/v6/latest/EUR');
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const data = await res.json();
+      if(data.result!=='success' || !data.rates) throw new Error('bad payload');
+      let hit=0;
+      CCYS.forEach(o=>{ if(typeof data.rates[o.c]==='number'){ rates[o.c]=data.rates[o.c]; hit++; } });
+      const t = data.time_last_update_utc ? new Date(data.time_last_update_utc) : new Date();
+      const ts = t.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
+      setStatus('live','即時匯率 · '+ts, `資料來源：<span class="src">open.er-api.com</span>（${hit} 種幣別）`);
+      render();
+    }catch(err){
+      setStatus('local','取得失敗 · 改用內建參考價', '請檢查網路或稍後再試；匯率可手動修改');
+    }finally{
+      btn.classList.remove('loading'); btn.disabled=false; btnTxt.textContent='更新即時匯率';
+    }
+  }
+  btn.addEventListener('click', fetchRates);
+
+  // 初始：先用內建值渲染，再嘗試抓即時
+  render();
+  fetchRates();
+})();
+</script>
+</body>
+</html>
