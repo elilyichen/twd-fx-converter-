@@ -9,20 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1b2420;
-    --ink-soft:#4c574f;
-    --paper:#f4efe3;
-    --paper-2:#ece5d4;
-    --jade:#1f5c4d;
-    --jade-deep:#123a30;
-    --vermil:#b8452e;
-    --vermil-soft:#e8c9bf;
-    --gold:#b78a2e;
-    --line:#d6cbb2;
+    --ink:#1b2420;--ink-soft:#4c574f;--paper:#f4efe3;--paper-2:#ece5d4;
+    --jade:#1f5c4d;--jade-deep:#123a30;--vermil:#b8452e;--vermil-soft:#e8c9bf;
+    --gold:#b78a2e;--line:#d6cbb2;
     --shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 20px 42px -26px rgba(18,58,48,.55);
     --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
-    --serif:'Noto Serif TC',serif;
-    --sans:'Noto Sans TC',system-ui,sans-serif;
+    --serif:'Noto Serif TC',serif;--sans:'Noto Sans TC',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
@@ -45,7 +37,7 @@
     font-family:var(--serif);font-weight:900;font-size:25px;position:relative;
     box-shadow:0 10px 22px -12px rgba(18,58,48,.7);
   }
-  .seal::after{content:"NT$";position:absolute;bottom:-7px;right:-7px;background:var(--vermil);color:#fff;
+  .seal::after{content:"FX";position:absolute;bottom:-7px;right:-7px;background:var(--vermil);color:#fff;
     font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.5px;padding:2px 4px;border-radius:5px;transform:rotate(-4deg)}
   h1{font-family:var(--serif);font-weight:900;font-size:23px;letter-spacing:.4px;line-height:1.1}
   h1 small{display:block;font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:2.5px;color:var(--ink-soft);margin-top:5px;text-transform:uppercase}
@@ -69,7 +61,6 @@
   button.refresh.loading .spin{display:inline-block}
   .hint{font-size:12px;color:var(--ink-soft)}
 
-  /* converter card */
   .card{
     background:linear-gradient(168deg,#fffdf8,#f2ecdd);border:1px solid var(--line);border-radius:20px;
     padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden
@@ -79,16 +70,13 @@
   .side{position:relative;display:flex;align-items:center;gap:14px;padding:6px 2px}
   .side .pick{flex:none}
   .lab{font-size:11px;letter-spacing:1.5px;color:var(--ink-soft);font-family:var(--mono);text-transform:uppercase;margin-bottom:7px}
-  select#ccy{
+  select.ccysel{
     appearance:none;-webkit-appearance:none;font-family:var(--sans);font-weight:700;font-size:16px;color:var(--ink);
     background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 34px 11px 13px;cursor:pointer;outline:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%231f5c4d' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:right 12px center;min-width:180px;transition:border-color .15s
+    background-repeat:no-repeat;background-position:right 12px center;min-width:190px;transition:border-color .15s
   }
-  select#ccy:focus{border-color:var(--jade)}
-  .twdtag{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;font-size:16px;color:var(--ink);
-    background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 15px;min-width:180px}
-  .twdtag .fx{font-size:20px}
+  select.ccysel:focus{border-color:var(--jade)}
   .side .field{flex:1;text-align:right;min-width:0}
   .side input.amt{
     width:100%;text-align:right;border:none;background:transparent;font-family:var(--mono);font-weight:700;
@@ -120,18 +108,41 @@
     background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 9px;outline:none;transition:border-color .15s
   }
   .ratebox input.rate:focus{border-color:var(--jade)}
+  .ratebox .ru{font-family:var(--mono);font-weight:700}
 
-  /* pinned grid */
+  /* pinned */
   .pinned{margin-top:20px}
-  .pinned h2{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--jade-deep);margin-bottom:9px;letter-spacing:.5px}
+  .phead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .pinned h2{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--jade-deep);letter-spacing:.5px}
+  .pbtns{display:flex;gap:7px}
+  .pbtn{font-family:var(--sans);font-weight:700;font-size:12px;cursor:pointer;border-radius:9px;padding:7px 12px;
+    border:1px solid var(--jade);background:var(--jade);color:#fff;transition:filter .12s}
+  .pbtn:hover{filter:brightness(1.08)}
+  .pbtn.ghost{background:transparent;color:var(--jade)}
+  .pbtn.active{background:var(--vermil);border-color:var(--vermil)}
+  .editpanel{background:rgba(31,92,77,.05);border:1px solid var(--line);border-radius:13px;padding:13px;margin-bottom:12px}
+  .ep-lab{font-size:11.5px;color:var(--ink-soft);margin-bottom:9px;font-family:var(--mono);letter-spacing:.5px}
+  .toggles{display:flex;flex-wrap:wrap;gap:7px}
+  .tog{font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-soft);background:#fffdf8;
+    border:1px solid var(--line);border-radius:999px;padding:6px 11px;cursor:pointer;user-select:none;
+    transition:background .12s,border-color .12s,color .12s;display:inline-flex;align-items:center;gap:5px}
+  .tog:hover{border-color:var(--jade)}
+  .tog.on{background:var(--jade);border-color:var(--jade);color:#fff}
+  .tog .tk{font-size:11px;opacity:.9}
   .pgrid{display:flex;flex-wrap:wrap;gap:9px}
   .chip{
-    flex:1 1 128px;background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:11px 13px;
+    position:relative;flex:1 1 128px;background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:11px 13px;
     box-shadow:0 8px 18px -16px rgba(18,58,48,.5)
   }
   .chip .c{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-soft);font-weight:500}
   .chip .v{font-family:var(--mono);font-weight:700;font-size:17px;color:var(--ink);margin-top:5px}
   .chip .v small{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1px}
+  .chip .rm{position:absolute;top:6px;right:7px;width:19px;height:19px;border-radius:50%;border:none;
+    background:rgba(184,69,46,.13);color:var(--vermil);font-size:12px;line-height:1;cursor:pointer;
+    display:none;align-items:center;justify-content:center;padding:0}
+  .pinned.editing .chip .rm{display:flex}
+  .chip .rm:hover{background:rgba(184,69,46,.26)}
+  .emptychip{flex:1 1 100%;text-align:center;color:var(--ink-soft);font-size:12.5px;padding:14px;border:1px dashed var(--line);border-radius:12px}
 
   .foot{margin-top:18px;font-size:11.5px;color:var(--ink-soft);line-height:1.7}
   .foot .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--vermil);border:1px solid var(--vermil-soft);border-radius:6px;padding:2px 7px;margin-right:6px}
@@ -140,7 +151,7 @@
     .side{flex-wrap:wrap}
     .side .field{width:100%;text-align:right}
     .side input.amt{font-size:26px}
-    select#ccy,.twdtag{min-width:100%}
+    select.ccysel{min-width:100%}
   }
 </style>
 </head>
@@ -150,7 +161,7 @@
   <header>
     <div class="brand">
       <div class="seal">匯</div>
-      <h1>匯率換算<small>FX to TWD · Live Converter</small></h1>
+      <h1>匯率換算<small>Currency Converter · Live</small></h1>
     </div>
     <div class="status" id="status">
       <span class="dot" id="dot"></span><span id="statusMain">尚未更新</span><br>
@@ -162,68 +173,76 @@
     <button class="refresh" id="refreshBtn">
       <span class="spin"></span><span id="refreshTxt">更新即時匯率</span>
     </button>
-    <span class="hint">選幣別、輸入金額即時換算；按中間圓鈕可反向換回。</span>
+    <span class="hint">兩邊都可選幣別、輸入金額即時互算；按中間圓鈕可對調兩邊幣別。</span>
   </div>
 
   <div class="card">
-    <!-- FROM -->
     <div class="side">
       <div class="pick">
-        <div class="lab" id="fromLab">換算來源</div>
-        <select id="ccy" aria-label="選擇幣別"></select>
+        <div class="lab">換算來源</div>
+        <select id="ccyFrom" class="ccysel" aria-label="選擇來源幣別"></select>
       </div>
       <div class="field">
-        <input class="amt" id="amtInput" type="text" inputmode="decimal" value="100" aria-label="金額">
-        <div class="unit" id="fromUnit">FX</div>
+        <input class="amt" id="amtInput" type="text" inputmode="decimal" value="100" aria-label="來源金額">
+        <div class="unit" id="fromUnit">USD</div>
       </div>
     </div>
 
     <div class="swaprow">
-      <button class="swap" id="swapBtn" title="反向換算" aria-label="反向換算">
+      <button class="swap" id="swapBtn" title="對調兩邊幣別" aria-label="對調兩邊幣別">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M7 4v13M7 4l-3 3M7 4l3 3M17 20V7M17 20l3-3M17 20l-3-3"/>
         </svg>
       </button>
     </div>
 
-    <!-- TO -->
     <div class="side">
       <div class="pick">
-        <div class="lab" id="toLab">換算結果</div>
-        <div class="twdtag" id="toTag"><span class="fx">🇹🇼</span><span id="toName">新台幣 TWD</span></div>
+        <div class="lab">換算結果</div>
+        <select id="ccyTo" class="ccysel" aria-label="選擇結果幣別"></select>
       </div>
       <div class="field">
-        <input class="amt result" id="resultInput" type="text" inputmode="decimal" value="0" aria-label="換算結果" readonly>
+        <input class="amt result" id="resultInput" type="text" inputmode="decimal" value="0" aria-label="結果金額">
         <div class="unit" id="toUnit">TWD</div>
       </div>
     </div>
 
     <div class="ratebox">
-      <div class="rl" id="rateLine">1 — = — TWD</div>
+      <div class="rl" id="rateLine">1 — = — —</div>
       <div class="edit">
         <span>手動匯率</span>
         <input class="rate" id="rateInput" type="text" inputmode="decimal" aria-label="手動修改匯率">
-        <span>TWD</span>
+        <span class="ru" id="rateUnit">—</span>
       </div>
     </div>
   </div>
 
-  <div class="pinned">
-    <h2>常用幣別 · 1 單位 = ? 新台幣</h2>
+  <div class="pinned" id="pinnedWrap">
+    <div class="phead">
+      <h2 id="pinnedTitle">常用幣別 · 1 單位 = ? 新台幣</h2>
+      <div class="pbtns">
+        <button id="editBtn" class="pbtn">自訂</button>
+        <button id="resetBtn" class="pbtn ghost">重設</button>
+      </div>
+    </div>
+    <div class="editpanel" id="editPanel" hidden>
+      <div class="ep-lab">點選要固定追蹤的幣別（可複選）</div>
+      <div class="toggles" id="toggles"></div>
+    </div>
     <div class="pgrid" id="pgrid"></div>
   </div>
 
   <div class="foot">
     <p><span class="tag">參考用途</span>顯示為中間參考價（mid rate），實際結匯以銀行牌告或即時報價為準。</p>
-    <p style="margin-top:6px">即時匯率來源：<a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">open.er-api.com</a>（以新台幣為基準換算）。取得失敗時自動套用內建參考價，匯率欄位可手動覆寫為你的牌告價。</p>
+    <p style="margin-top:6px">即時匯率來源：<a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">open.er-api.com</a>（透過新台幣基準計算各幣別交叉匯率）。取得失敗時自動套用內建參考價，匯率欄位可手動覆寫為你的牌告價。自訂追蹤清單會記在本機瀏覽器。</p>
   </div>
 
 </div>
 
 <script>
 (function(){
-  // 幣別：代碼、中文名、旗幟、金額小數位
   const CCYS = [
+    {c:'TWD',n:'新台幣',f:'🇹🇼',dp:2},
     {c:'USD',n:'美元',f:'🇺🇸',dp:2},{c:'EUR',n:'歐元',f:'🇪🇺',dp:2},{c:'JPY',n:'日圓',f:'🇯🇵',dp:0},
     {c:'CNY',n:'人民幣',f:'🇨🇳',dp:2},{c:'HKD',n:'港幣',f:'🇭🇰',dp:2},{c:'GBP',n:'英鎊',f:'🇬🇧',dp:2},
     {c:'AUD',n:'澳幣',f:'🇦🇺',dp:2},{c:'CHF',n:'瑞士法郎',f:'🇨🇭',dp:2},{c:'SGD',n:'新加坡幣',f:'🇸🇬',dp:2},
@@ -235,128 +254,158 @@
     {c:'DKK',n:'丹麥克朗',f:'🇩🇰',dp:2},{c:'AED',n:'阿聯迪拉姆',f:'🇦🇪',dp:2},{c:'SAR',n:'沙烏地里亞爾',f:'🇸🇦',dp:2},
     {c:'PLN',n:'波蘭茲羅提',f:'🇵🇱',dp:2},{c:'CZK',n:'捷克克朗',f:'🇨🇿',dp:2}
   ];
-  // 內建參考價：1 單位外幣 = ? 新台幣（約 2026 年中，取得即時匯率失敗時使用）
   const FB = {
-    USD:31.60,EUR:35.85,JPY:0.1724,CNY:4.10,HKD:4.05,GBP:36.67,AUD:19.15,CHF:34.34,SGD:21.35,
+    TWD:1,USD:31.60,EUR:35.85,JPY:0.1724,CNY:4.10,HKD:4.05,GBP:36.67,AUD:19.15,CHF:34.34,SGD:21.35,
     KRW:0.02026,THB:0.855,MYR:6.85,PHP:0.504,IDR:0.001755,VND:0.001240,INR:0.3224,CAD:22.30,
     NZD:18.16,ZAR:1.856,MXN:1.768,BRL:6.19,TRY:0.6716,SEK:3.238,NOK:3.326,DKK:4.790,
     AED:8.605,SAR:8.427,PLN:8.470,CZK:1.475
   };
-  const PINNED = ['USD','JPY','EUR','CNY','HKD','KRW'];
+  const DEFAULT_PINNED = ['USD','JPY','EUR','CNY','HKD','KRW'];
+  const LS_KEY='fx_pinned_v1';
   const META = Object.fromEntries(CCYS.map(o=>[o.c,o]));
 
-  let twdPer = Object.assign({}, FB);   // 1 單位外幣 = ? TWD
-  let sel = 'USD';
-  let dir = 'toTWD';                     // 'toTWD' | 'toCCY'
-  let amount = 100;
+  let twdPer = Object.assign({}, FB);
+  let from='USD', to='TWD', fromAmt=100, toAmt=0;
+  let pinned = loadPinned();
 
-  const $ = id => document.getElementById(id);
-  const amtInput=$('amtInput'), resultInput=$('resultInput'), ccySel=$('ccy'),
-        rateInput=$('rateInput'), rateLine=$('rateLine'), swapBtn=$('swapBtn'),
-        fromLab=$('fromLab'), toLab=$('toLab'), fromUnit=$('fromUnit'), toUnit=$('toUnit'),
-        toName=$('toName'), toTag=$('toTag');
+  const $=id=>document.getElementById(id);
+  const amtInput=$('amtInput'), resultInput=$('resultInput'),
+        ccyFrom=$('ccyFrom'), ccyTo=$('ccyTo'),
+        rateInput=$('rateInput'), rateLine=$('rateLine'), rateUnit=$('rateUnit'),
+        swapBtn=$('swapBtn'), fromUnit=$('fromUnit'), toUnit=$('toUnit'),
+        editBtn=$('editBtn'), resetBtn=$('resetBtn'), editPanel=$('editPanel'),
+        pinnedWrap=$('pinnedWrap');
 
-  const parseNum = s => { const n=parseFloat(String(s).replace(/[^0-9.\-]/g,'')); return isNaN(n)?0:n; };
-  const money = (v,dp) => isFinite(v)? Number(v).toLocaleString('en-US',{minimumFractionDigits:dp,maximumFractionDigits:dp}) : '0';
-  const rateDp = v => v>=100?3 : v>=1?4 : v>=0.1?4 : v>=0.01?5 : 7;
-  const fmtRate = v => money(v, rateDp(v));
+  function loadPinned(){
+    try{ const s=localStorage.getItem(LS_KEY); if(s){ const a=JSON.parse(s); if(Array.isArray(a)) return a.filter(c=>META[c]); } }catch(e){}
+    return DEFAULT_PINNED.slice();
+  }
+  function savePinned(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(pinned)); }catch(e){} }
 
-  // 建立下拉選單
+  const parseNum=s=>{const n=parseFloat(String(s).replace(/[^0-9.\-]/g,''));return isNaN(n)?0:n;};
+  const money=(v,dp)=>isFinite(v)?Number(v).toLocaleString('en-US',{minimumFractionDigits:dp,maximumFractionDigits:dp}):'0';
+  const rateDp=v=>v>=100?3:v>=1?4:v>=0.1?4:v>=0.01?5:7;
+  const fmtRate=v=>money(v,rateDp(v));
+  const rate=()=> (twdPer[to]>0)? (twdPer[from]/twdPer[to]) : 0;
+
   CCYS.forEach(o=>{
-    const opt=document.createElement('option');
-    opt.value=o.c; opt.textContent=`${o.f}  ${o.n}（${o.c}）`;
-    ccySel.appendChild(opt);
+    const label=`${o.f}  ${o.n}（${o.c}）`;
+    const a=document.createElement('option'); a.value=o.c; a.textContent=label; ccyFrom.appendChild(a);
+    const b=document.createElement('option'); b.value=o.c; b.textContent=label; ccyTo.appendChild(b);
   });
-  ccySel.value=sel;
+  ccyFrom.value=from; ccyTo.value=to;
 
-  function currentAmtDp(){ // 輸入端小數位
-    if(dir==='toTWD') return META[sel].dp;   // 輸入外幣
-    return 2;                                 // 輸入台幣
+  function renderRate(){
+    fromUnit.textContent=from; toUnit.textContent=to;
+    rateLine.innerHTML=`1 <b>${from}</b> = <b>${fmtRate(rate())}</b> ${to}`;
+    rateInput.value=fmtRate(rate()); rateUnit.textContent=to;
   }
-  function resultDp(){
-    if(dir==='toTWD') return 2;               // 台幣
-    return META[sel].dp;                       // 外幣
-  }
-
-  function compute(){
-    const r = twdPer[sel] || 0;
-    let res;
-    if(dir==='toTWD') res = amount * r;        // 外幣→台幣
-    else res = r>0 ? amount / r : 0;           // 台幣→外幣
-    resultInput.value = money(res, resultDp());
-  }
-
-  function renderLabels(){
-    const m=META[sel];
-    if(dir==='toTWD'){
-      fromLab.textContent='換算來源'; toLab.textContent='換算結果';
-      fromUnit.textContent=m.c; toUnit.textContent='TWD';
-      toName.textContent='新台幣 TWD'; toTag.querySelector('.fx').textContent='🇹🇼';
-    }else{
-      fromLab.textContent='輸入台幣'; toLab.textContent='換算結果';
-      fromUnit.textContent='TWD'; toUnit.textContent=m.c;
-      toName.textContent=`${m.n} ${m.c}`; toTag.querySelector('.fx').textContent=m.f;
-    }
-    rateLine.innerHTML = `1 <b>${m.c}</b> = <b>${fmtRate(twdPer[sel]||0)}</b> TWD`;
-    rateInput.value = fmtRate(twdPer[sel]||0);
-    // 反向時，輸入框顯示台幣圖示語意，這裡僅切換單位文字
-  }
+  function computeFromSource(){ toAmt=fromAmt*rate(); resultInput.value=money(toAmt, META[to].dp); }
+  function computeFromResult(){ const r=rate(); fromAmt=r>0?toAmt/r:0; amtInput.value=money(fromAmt, META[from].dp); }
 
   function renderPinned(){
     const g=$('pgrid'); g.innerHTML='';
-    PINNED.forEach(c=>{
-      const m=META[c]; const v=twdPer[c]||0;
+    $('pinnedTitle').textContent=`常用幣別 · 1 單位 = ? ${META[to].n}`;
+    if(!pinned.length){
+      g.innerHTML='<div class="emptychip">尚未選擇追蹤幣別 — 按右上「自訂」新增</div>'; return;
+    }
+    pinned.forEach(c=>{
+      if(!META[c]) return;
+      const m=META[c]; const v=(twdPer[to]>0)? twdPer[c]/twdPer[to]:0;
       const el=document.createElement('div'); el.className='chip';
-      el.innerHTML=`<div class="c">${m.f} ${m.n}（${c}）</div><div class="v">${fmtRate(v)} <small>TWD</small></div>`;
+      el.innerHTML=`<button class="rm" data-rm="${c}" title="移除" aria-label="移除">✕</button>`+
+        `<div class="c">${m.f} ${m.n}（${c}）</div>`+
+        `<div class="v">${fmtRate(v)} <small>${to}</small></div>`;
       g.appendChild(el);
     });
   }
+  function renderToggles(){
+    const t=$('toggles'); t.innerHTML='';
+    CCYS.forEach(o=>{
+      const on=pinned.includes(o.c);
+      const b=document.createElement('button');
+      b.className='tog'+(on?' on':''); b.dataset.tog=o.c;
+      b.innerHTML=`${o.f} ${o.c}`+(on?' <span class="tk">✓</span>':'');
+      t.appendChild(b);
+    });
+  }
+  function renderAll(){ renderRate(); computeFromSource(); renderPinned(); }
 
-  function renderAll(){ renderLabels(); compute(); renderPinned(); }
+  amtInput.addEventListener('input',e=>{ fromAmt=parseNum(e.target.value); computeFromSource(); });
+  amtInput.addEventListener('blur',e=>{ e.target.value=money(fromAmt, META[from].dp); });
+  resultInput.addEventListener('input',e=>{ toAmt=parseNum(e.target.value); computeFromResult(); });
+  resultInput.addEventListener('blur',e=>{ e.target.value=money(toAmt, META[to].dp); });
 
-  // 事件
-  amtInput.addEventListener('input', e=>{ amount=parseNum(e.target.value); compute(); });
-  amtInput.addEventListener('blur', e=>{ e.target.value = money(amount, currentAmtDp()); });
-  ccySel.addEventListener('change', e=>{ sel=e.target.value; renderLabels(); compute(); });
-  rateInput.addEventListener('input', e=>{ twdPer[sel]=parseNum(e.target.value); rateLine.innerHTML=`1 <b>${sel}</b> = <b>${fmtRate(twdPer[sel])}</b> TWD`; compute(); renderPinned(); });
+  ccyFrom.addEventListener('change',e=>{ from=e.target.value; renderRate(); computeFromSource(); renderPinned(); });
+  ccyTo.addEventListener('change',e=>{ to=e.target.value; renderRate(); computeFromSource(); renderPinned(); });
 
-  swapBtn.addEventListener('click', ()=>{
-    // 把目前結果搬到輸入端，維持連續感
-    const resVal = parseNum(resultInput.value);
-    dir = dir==='toTWD' ? 'toCCY' : 'toTWD';
-    swapBtn.classList.toggle('flip');
-    amount = resVal;
-    amtInput.value = money(amount, currentAmtDp());
-    renderLabels(); compute();
+  rateInput.addEventListener('input',e=>{
+    const x=parseNum(e.target.value);
+    if(twdPer[to]>0){ twdPer[from]=x*twdPer[to]; }
+    rateLine.innerHTML=`1 <b>${from}</b> = <b>${fmtRate(x)}</b> ${to}`;
+    computeFromSource(); renderPinned();
   });
 
-  // 即時匯率：以 TWD 為基準，rates[C] = 1 TWD 可換多少 C → 1 C = 1/rates[C] TWD
-  const btn=$('refreshBtn'), btnTxt=$('refreshTxt'), dot=$('dot'), sMain=$('statusMain'), sSub=$('statusSub');
-  function setStatus(mode,main,sub){ dot.className='dot '+(mode==='live'?'live':''); sMain.textContent=main; sSub.innerHTML=sub; }
+  swapBtn.addEventListener('click',()=>{
+    [from,to]=[to,from];
+    ccyFrom.value=from; ccyTo.value=to;
+    swapBtn.classList.toggle('flip');
+    fromAmt=toAmt;
+    amtInput.value=money(fromAmt, META[from].dp);
+    renderRate(); computeFromSource(); renderPinned();
+  });
 
+  // 自訂追蹤清單
+  editBtn.addEventListener('click',()=>{
+    const opening=editPanel.hasAttribute('hidden');
+    if(opening){
+      editPanel.removeAttribute('hidden'); editBtn.classList.add('active'); editBtn.textContent='完成';
+      pinnedWrap.classList.add('editing'); renderToggles();
+    }else{
+      editPanel.setAttribute('hidden',''); editBtn.classList.remove('active'); editBtn.textContent='自訂';
+      pinnedWrap.classList.remove('editing');
+    }
+  });
+  $('toggles').addEventListener('click',e=>{
+    const b=e.target.closest('[data-tog]'); if(!b) return;
+    const c=b.dataset.tog;
+    if(pinned.includes(c)) pinned=pinned.filter(x=>x!==c);
+    else pinned=[...pinned,c];
+    savePinned(); renderToggles(); renderPinned();
+  });
+  $('pgrid').addEventListener('click',e=>{
+    const b=e.target.closest('[data-rm]'); if(!b) return;
+    pinned=pinned.filter(x=>x!==b.dataset.rm);
+    savePinned(); renderToggles(); renderPinned();
+  });
+  resetBtn.addEventListener('click',()=>{
+    pinned=DEFAULT_PINNED.slice(); savePinned(); renderToggles(); renderPinned();
+  });
+
+  const btn=$('refreshBtn'),btnTxt=$('refreshTxt'),dot=$('dot'),sMain=$('statusMain'),sSub=$('statusSub');
+  function setStatus(mode,main,sub){dot.className='dot '+(mode==='live'?'live':'');sMain.textContent=main;sSub.innerHTML=sub;}
   async function fetchRates(){
-    btn.classList.add('loading'); btn.disabled=true; btnTxt.textContent='更新中…';
+    btn.classList.add('loading');btn.disabled=true;btnTxt.textContent='更新中…';
     try{
       const res=await fetch('https://open.er-api.com/v6/latest/TWD');
       if(!res.ok) throw new Error('HTTP '+res.status);
       const data=await res.json();
       if(data.result!=='success'||!data.rates) throw new Error('bad payload');
       let hit=0;
-      CCYS.forEach(o=>{ const r=data.rates[o.c]; if(typeof r==='number'&&r>0){ twdPer[o.c]=1/r; hit++; } });
+      CCYS.forEach(o=>{ if(o.c==='TWD'){twdPer.TWD=1;return;} const r=data.rates[o.c]; if(typeof r==='number'&&r>0){twdPer[o.c]=1/r;hit++;} });
       const t=data.time_last_update_utc?new Date(data.time_last_update_utc):new Date();
       const ts=t.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
-      setStatus('live','即時匯率 · '+ts, `資料來源：<span class="src">open.er-api.com</span>（${hit} 種幣別）`);
+      setStatus('live','即時匯率 · '+ts,`資料來源：<span class="src">open.er-api.com</span>（${hit} 種幣別）`);
       renderAll();
     }catch(err){
       setStatus('local','取得失敗 · 改用內建參考價','請檢查網路或稍後再試；匯率可手動修改');
     }finally{
-      btn.classList.remove('loading'); btn.disabled=false; btnTxt.textContent='更新即時匯率';
+      btn.classList.remove('loading');btn.disabled=false;btnTxt.textContent='更新即時匯率';
     }
   }
-  btn.addEventListener('click', fetchRates);
+  btn.addEventListener('click',fetchRates);
 
-  renderAll();
-  fetchRates();
+  renderAll(); fetchRates();
 })();
 </script>
 </body>
