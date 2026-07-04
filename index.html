@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>歐元匯率換算器 · EUR FX Converter</title>
+<title>多幣別對台幣即時換算</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#16202e;
-    --ink-soft:#475063;
-    --paper:#f6f2e9;
-    --paper-2:#efe9da;
-    --line:#d8cfba;
-    --eu-blue:#0b3a8c;
-    --eu-blue-deep:#072a66;
-    --gold:#c79a35;
-    --gold-soft:#e9d9a8;
-    --pos:#1d6b4f;
-    --shadow:0 1px 0 #fff inset, 0 18px 40px -24px rgba(7,42,102,.45);
+    --ink:#1b2420;
+    --ink-soft:#4c574f;
+    --paper:#f4efe3;
+    --paper-2:#ece5d4;
+    --jade:#1f5c4d;
+    --jade-deep:#123a30;
+    --vermil:#b8452e;
+    --vermil-soft:#e8c9bf;
+    --gold:#b78a2e;
+    --line:#d6cbb2;
+    --shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 20px 42px -26px rgba(18,58,48,.55);
     --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
     --serif:'Noto Serif TC',serif;
     --sans:'Noto Sans TC',system-ui,sans-serif;
@@ -27,51 +27,41 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
-    font-family:var(--sans);
-    color:var(--ink);
+    font-family:var(--sans);color:var(--ink);
     background:
-      radial-gradient(1200px 600px at 100% -10%, rgba(11,58,140,.07), transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, rgba(199,154,53,.10), transparent 55%),
+      radial-gradient(1100px 560px at 108% -12%, rgba(31,92,77,.09), transparent 60%),
+      radial-gradient(820px 460px at -12% 112%, rgba(184,69,46,.10), transparent 58%),
       var(--paper);
-    min-height:100%;
-    -webkit-font-smoothing:antialiased;
-    padding:28px 18px 56px;
-    display:flex;justify-content:center;
+    min-height:100%;-webkit-font-smoothing:antialiased;
+    padding:26px 16px 52px;display:flex;justify-content:center;
   }
-  .wrap{width:100%;max-width:760px}
+  .wrap{width:100%;max-width:640px}
 
-  /* ---- header ---- */
-  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
-  .brand{display:flex;align-items:center;gap:14px}
-  .star{
-    width:54px;height:54px;border-radius:14px;flex:none;
-    background:linear-gradient(155deg,var(--eu-blue),var(--eu-blue-deep));
-    display:grid;place-items:center;color:var(--gold);
-    box-shadow:0 10px 24px -12px rgba(7,42,102,.7);
-    position:relative;
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .brand{display:flex;align-items:center;gap:13px}
+  .seal{
+    width:52px;height:52px;border-radius:13px;flex:none;display:grid;place-items:center;
+    background:linear-gradient(155deg,var(--jade),var(--jade-deep));color:#f4efe3;
+    font-family:var(--serif);font-weight:900;font-size:25px;position:relative;
+    box-shadow:0 10px 22px -12px rgba(18,58,48,.7);
   }
-  .star svg{width:30px;height:30px}
-  h1{font-family:var(--serif);font-weight:900;font-size:25px;letter-spacing:.3px;line-height:1.05}
-  h1 small{display:block;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:3px;color:var(--ink-soft);margin-top:5px;text-transform:uppercase}
-  .status{
-    text-align:right;font-size:12px;color:var(--ink-soft);line-height:1.5;
-    font-family:var(--mono);max-width:230px
-  }
-  .status .src{color:var(--eu-blue);font-weight:700}
-  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink-soft);margin-right:5px;vertical-align:middle}
-  .dot.live{background:var(--pos);box-shadow:0 0 0 3px rgba(29,107,79,.18)}
-  .dot.local{background:var(--gold)}
+  .seal::after{content:"NT$";position:absolute;bottom:-7px;right:-7px;background:var(--vermil);color:#fff;
+    font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.5px;padding:2px 4px;border-radius:5px;transform:rotate(-4deg)}
+  h1{font-family:var(--serif);font-weight:900;font-size:23px;letter-spacing:.4px;line-height:1.1}
+  h1 small{display:block;font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:2.5px;color:var(--ink-soft);margin-top:5px;text-transform:uppercase}
+  .status{text-align:right;font-size:11.5px;color:var(--ink-soft);line-height:1.5;font-family:var(--mono);max-width:210px}
+  .status .src{color:var(--jade);font-weight:700}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-right:5px;vertical-align:middle}
+  .dot.live{background:var(--jade);box-shadow:0 0 0 3px rgba(31,92,77,.16)}
 
-  /* ---- toolbar ---- */
-  .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+  .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:15px}
   button.refresh{
-    font-family:var(--sans);font-weight:700;font-size:13.5px;color:#fff;cursor:pointer;
-    background:linear-gradient(160deg,var(--eu-blue),var(--eu-blue-deep));
-    border:none;border-radius:11px;padding:11px 16px;letter-spacing:.5px;
-    box-shadow:0 12px 22px -14px rgba(7,42,102,.9);transition:transform .12s, filter .12s;
-    display:inline-flex;align-items:center;gap:8px
+    font-family:var(--sans);font-weight:700;font-size:13px;color:#fff;cursor:pointer;
+    background:linear-gradient(160deg,var(--jade),var(--jade-deep));border:none;border-radius:11px;
+    padding:11px 16px;letter-spacing:.5px;display:inline-flex;align-items:center;gap:8px;
+    box-shadow:0 12px 22px -14px rgba(18,58,48,.9);transition:filter .12s,transform .12s;
   }
-  button.refresh:hover{filter:brightness(1.07)}
+  button.refresh:hover{filter:brightness(1.08)}
   button.refresh:active{transform:translateY(1px)}
   button.refresh[disabled]{opacity:.6;cursor:wait}
   .spin{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:sp .7s linear infinite;display:none}
@@ -79,66 +69,78 @@
   button.refresh.loading .spin{display:inline-block}
   .hint{font-size:12px;color:var(--ink-soft)}
 
-  /* ---- EUR base card ---- */
-  .base{
-    background:linear-gradient(165deg,#fffdf7,#f4eedd);
-    border:1px solid var(--line);border-radius:18px;padding:18px 20px;
-    box-shadow:var(--shadow);margin-bottom:14px;
-    display:flex;align-items:center;gap:16px
+  /* converter card */
+  .card{
+    background:linear-gradient(168deg,#fffdf8,#f2ecdd);border:1px solid var(--line);border-radius:20px;
+    padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden
   }
-  .base .lab{flex:none}
-  .base .flag{font-family:var(--serif);font-weight:900;font-size:30px;color:var(--eu-blue);line-height:1}
-  .base .nm{font-size:12.5px;color:var(--ink-soft);margin-top:3px;letter-spacing:1px}
-  .base .field{flex:1;text-align:right}
-  .base input{
-    width:100%;text-align:right;border:none;background:transparent;
-    font-family:var(--mono);font-weight:700;font-size:34px;color:var(--ink);
-    letter-spacing:.5px;outline:none;
+  .card::before{content:"";position:absolute;inset:0;background:
+    repeating-linear-gradient(135deg,rgba(31,92,77,.03) 0 2px,transparent 2px 9px);pointer-events:none}
+  .side{position:relative;display:flex;align-items:center;gap:14px;padding:6px 2px}
+  .side .pick{flex:none}
+  .lab{font-size:11px;letter-spacing:1.5px;color:var(--ink-soft);font-family:var(--mono);text-transform:uppercase;margin-bottom:7px}
+  select#ccy{
+    appearance:none;-webkit-appearance:none;font-family:var(--sans);font-weight:700;font-size:16px;color:var(--ink);
+    background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 34px 11px 13px;cursor:pointer;outline:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%231f5c4d' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;min-width:180px;transition:border-color .15s
   }
-  .base .ccy{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;letter-spacing:2px;margin-top:2px}
+  select#ccy:focus{border-color:var(--jade)}
+  .twdtag{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;font-size:16px;color:var(--ink);
+    background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 15px;min-width:180px}
+  .twdtag .fx{font-size:20px}
+  .side .field{flex:1;text-align:right;min-width:0}
+  .side input.amt{
+    width:100%;text-align:right;border:none;background:transparent;font-family:var(--mono);font-weight:700;
+    font-size:30px;color:var(--ink);letter-spacing:.5px;outline:none
+  }
+  .side input.amt.result{color:var(--vermil)}
+  .unit{font-family:var(--mono);font-size:12px;color:var(--gold);font-weight:700;letter-spacing:2px;margin-top:2px;text-align:right}
 
-  /* ---- grid ---- */
-  .grid{background:#fffdf8;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
-  .ghead{
-    display:grid;grid-template-columns:1.4fr 1fr 1.5fr;gap:6px;
-    padding:11px 18px;background:var(--eu-blue-deep);color:#dfe7f5;
-    font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase
+  .swaprow{display:flex;justify-content:center;align-items:center;position:relative;margin:4px 0}
+  .swaprow::before{content:"";position:absolute;left:2px;right:2px;top:50%;border-top:1px dashed var(--line)}
+  button.swap{
+    position:relative;z-index:1;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
+    background:#fff;color:var(--jade);cursor:pointer;display:grid;place-items:center;
+    box-shadow:0 6px 14px -8px rgba(18,58,48,.6);transition:transform .25s,background .15s
   }
-  .ghead span:nth-child(2),.ghead span:nth-child(3){text-align:right}
-  .row{
-    display:grid;grid-template-columns:1.4fr 1fr 1.5fr;gap:6px;align-items:center;
-    padding:10px 18px;border-top:1px solid var(--paper-2);transition:background .15s
-  }
-  .row:hover{background:var(--paper)}
-  .cinfo{display:flex;align-items:center;gap:10px;min-width:0}
-  .badge{
-    width:34px;height:24px;border-radius:6px;flex:none;display:grid;place-items:center;
-    font-family:var(--mono);font-weight:700;font-size:10px;color:#fff;letter-spacing:.5px;
-    background:linear-gradient(160deg,#5a6577,#3a4250)
-  }
-  .cname{font-size:13.5px;font-weight:500;line-height:1.15;min-width:0}
-  .cname b{font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-weight:500;display:block}
-  .rate-cell,.amt-cell{position:relative}
-  .rate-cell input,.amt-cell input{
-    width:100%;text-align:right;border:1px solid transparent;border-radius:8px;
-    background:transparent;font-family:var(--mono);font-weight:500;color:var(--ink);
-    padding:7px 9px;outline:none;transition:border-color .15s,background .15s
-  }
-  .rate-cell input{font-size:13px;color:var(--ink-soft)}
-  .amt-cell input{font-size:16px;font-weight:700}
-  .rate-cell input:hover,.amt-cell input:hover{background:#fff}
-  .rate-cell input:focus,.amt-cell input:focus{border-color:var(--eu-blue);background:#fff;color:var(--ink)}
-  .amt-cell input:focus{box-shadow:0 0 0 3px rgba(11,58,140,.1)}
+  button.swap:hover{background:var(--paper)}
+  button.swap.flip{transform:rotate(180deg)}
+  button.swap svg{width:18px;height:18px}
 
-  /* ---- footer ---- */
+  .ratebox{
+    position:relative;margin-top:16px;padding:12px 14px;background:rgba(31,92,77,.06);
+    border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap
+  }
+  .ratebox .rl{font-size:13px;color:var(--ink-soft)}
+  .ratebox .rl b{color:var(--ink);font-family:var(--mono)}
+  .ratebox .edit{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-soft)}
+  .ratebox input.rate{
+    width:120px;text-align:right;font-family:var(--mono);font-weight:700;font-size:14px;color:var(--jade-deep);
+    background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 9px;outline:none;transition:border-color .15s
+  }
+  .ratebox input.rate:focus{border-color:var(--jade)}
+
+  /* pinned grid */
+  .pinned{margin-top:20px}
+  .pinned h2{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--jade-deep);margin-bottom:9px;letter-spacing:.5px}
+  .pgrid{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{
+    flex:1 1 128px;background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:11px 13px;
+    box-shadow:0 8px 18px -16px rgba(18,58,48,.5)
+  }
+  .chip .c{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-soft);font-weight:500}
+  .chip .v{font-family:var(--mono);font-weight:700;font-size:17px;color:var(--ink);margin-top:5px}
+  .chip .v small{font-size:10px;color:var(--gold);font-weight:500;letter-spacing:1px}
+
   .foot{margin-top:18px;font-size:11.5px;color:var(--ink-soft);line-height:1.7}
-  .foot .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--eu-blue);border:1px solid var(--line);border-radius:6px;padding:2px 7px;margin-right:6px}
-  .foot a{color:var(--eu-blue)}
-  @media(max-width:560px){
-    .base input{font-size:27px}
-    .ghead,.row{grid-template-columns:1.25fr .9fr 1.3fr;padding-left:13px;padding-right:13px}
-    .cname{font-size:12.5px}
-    h1{font-size:21px}
+  .foot .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--vermil);border:1px solid var(--vermil-soft);border-radius:6px;padding:2px 7px;margin-right:6px}
+  .foot a{color:var(--jade)}
+  @media(max-width:520px){
+    .side{flex-wrap:wrap}
+    .side .field{width:100%;text-align:right}
+    .side input.amt{font-size:26px}
+    select#ccy,.twdtag{min-width:100%}
   }
 </style>
 </head>
@@ -147,177 +149,213 @@
 
   <header>
     <div class="brand">
-      <div class="star" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3 7.2 16.7l.9-5.4L4.2 7.7l5.4-.8L12 2z"/></svg>
-      </div>
-      <h1>歐元匯率換算器<small>EUR FX Converter</small></h1>
+      <div class="seal">匯</div>
+      <h1>多幣別對台幣即時換算<small>FX to TWD · Live Converter</small></h1>
     </div>
     <div class="status" id="status">
-      <span class="dot local" id="dot"></span><span id="statusMain">尚未更新</span><br>
+      <span class="dot" id="dot"></span><span id="statusMain">尚未更新</span><br>
       <span id="statusSub">資料來源：內建參考價</span>
     </div>
   </header>
 
   <div class="bar">
     <button class="refresh" id="refreshBtn">
-      <span class="spin"></span>
-      <span id="refreshTxt">更新即時匯率</span>
+      <span class="spin"></span><span id="refreshTxt">更新即時匯率</span>
     </button>
-    <span class="hint">點任一金額或匯率欄位即可直接編輯，所有幣別會同步換算。</span>
+    <span class="hint">選幣別、輸入金額即時換算；按中間圓鈕可反向換回。</span>
   </div>
 
-  <!-- EUR base -->
-  <div class="base">
-    <div class="lab">
-      <div class="flag">€</div>
-      <div class="nm">歐元 EURO</div>
+  <div class="card">
+    <!-- FROM -->
+    <div class="side">
+      <div class="pick">
+        <div class="lab" id="fromLab">換算來源</div>
+        <select id="ccy" aria-label="選擇幣別"></select>
+      </div>
+      <div class="field">
+        <input class="amt" id="amtInput" type="text" inputmode="decimal" value="100" aria-label="金額">
+        <div class="unit" id="fromUnit">FX</div>
+      </div>
     </div>
-    <div class="field">
-      <input id="eurInput" type="text" inputmode="decimal" value="1,000.00" aria-label="歐元金額">
-      <div class="ccy">EUR · 1 EUR = ?</div>
+
+    <div class="swaprow">
+      <button class="swap" id="swapBtn" title="反向換算" aria-label="反向換算">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 4v13M7 4l-3 3M7 4l3 3M17 20V7M17 20l3-3M17 20l-3-3"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- TO -->
+    <div class="side">
+      <div class="pick">
+        <div class="lab" id="toLab">換算結果</div>
+        <div class="twdtag" id="toTag"><span class="fx">🇹🇼</span><span id="toName">新台幣 TWD</span></div>
+      </div>
+      <div class="field">
+        <input class="amt result" id="resultInput" type="text" inputmode="decimal" value="0" aria-label="換算結果" readonly>
+        <div class="unit" id="toUnit">TWD</div>
+      </div>
+    </div>
+
+    <div class="ratebox">
+      <div class="rl" id="rateLine">1 — = — TWD</div>
+      <div class="edit">
+        <span>手動匯率</span>
+        <input class="rate" id="rateInput" type="text" inputmode="decimal" aria-label="手動修改匯率">
+        <span>TWD</span>
+      </div>
     </div>
   </div>
 
-  <!-- currency grid -->
-  <div class="grid">
-    <div class="ghead">
-      <span>幣別</span>
-      <span>匯率 (1 EUR =)</span>
-      <span>換算金額</span>
-    </div>
-    <div id="rows"></div>
+  <div class="pinned">
+    <h2>常用幣別 · 1 單位 = ? 新台幣</h2>
+    <div class="pgrid" id="pgrid"></div>
   </div>
 
   <div class="foot">
-    <p><span class="tag">參考用途</span>顯示為中間參考價（mid rate），實際成交以即時報價或央行公告為準；正式公文與永豐報表請勿直接引用。</p>
-    <p style="margin-top:6px">即時匯率來源：<a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">open.er-api.com</a>（以歐元為基準，含新台幣）。若取得失敗將自動套用內建參考價，匯率欄位可手動覆寫為你的交易報價。</p>
+    <p><span class="tag">參考用途</span>顯示為中間參考價（mid rate），實際結匯以銀行牌告或即時報價為準。</p>
+    <p style="margin-top:6px">即時匯率來源：<a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">open.er-api.com</a>（以新台幣為基準換算）。取得失敗時自動套用內建參考價，匯率欄位可手動覆寫為你的牌告價。</p>
   </div>
 
 </div>
 
 <script>
 (function(){
-  // 幣別設定：代碼、中文名、金額小數位、匯率小數位
+  // 幣別：代碼、中文名、旗幟、金額小數位
   const CCYS = [
-    {c:'TWD', n:'新台幣',   amtDp:2, rateDp:4},
-    {c:'USD', n:'美元',     amtDp:2, rateDp:4},
-    {c:'JPY', n:'日圓',     amtDp:0, rateDp:2},
-    {c:'CNY', n:'人民幣',   amtDp:2, rateDp:4},
-    {c:'GBP', n:'英鎊',     amtDp:2, rateDp:4},
-    {c:'CHF', n:'瑞士法郎', amtDp:2, rateDp:4},
-    {c:'HKD', n:'港幣',     amtDp:2, rateDp:4},
-    {c:'AUD', n:'澳幣',     amtDp:2, rateDp:4},
-    {c:'SGD', n:'新加坡幣', amtDp:2, rateDp:4},
-    {c:'KRW', n:'韓元',     amtDp:0, rateDp:2},
-    {c:'CAD', n:'加幣',     amtDp:2, rateDp:4},
-    {c:'NZD', n:'紐幣',     amtDp:2, rateDp:4},
+    {c:'USD',n:'美元',f:'🇺🇸',dp:2},{c:'EUR',n:'歐元',f:'🇪🇺',dp:2},{c:'JPY',n:'日圓',f:'🇯🇵',dp:0},
+    {c:'CNY',n:'人民幣',f:'🇨🇳',dp:2},{c:'HKD',n:'港幣',f:'🇭🇰',dp:2},{c:'GBP',n:'英鎊',f:'🇬🇧',dp:2},
+    {c:'AUD',n:'澳幣',f:'🇦🇺',dp:2},{c:'CHF',n:'瑞士法郎',f:'🇨🇭',dp:2},{c:'SGD',n:'新加坡幣',f:'🇸🇬',dp:2},
+    {c:'KRW',n:'韓元',f:'🇰🇷',dp:0},{c:'THB',n:'泰銖',f:'🇹🇭',dp:2},{c:'MYR',n:'馬來西亞令吉',f:'🇲🇾',dp:2},
+    {c:'PHP',n:'菲律賓披索',f:'🇵🇭',dp:2},{c:'IDR',n:'印尼盾',f:'🇮🇩',dp:0},{c:'VND',n:'越南盾',f:'🇻🇳',dp:0},
+    {c:'INR',n:'印度盧比',f:'🇮🇳',dp:2},{c:'CAD',n:'加幣',f:'🇨🇦',dp:2},{c:'NZD',n:'紐幣',f:'🇳🇿',dp:2},
+    {c:'ZAR',n:'南非幣',f:'🇿🇦',dp:2},{c:'MXN',n:'墨西哥披索',f:'🇲🇽',dp:2},{c:'BRL',n:'巴西雷亞爾',f:'🇧🇷',dp:2},
+    {c:'TRY',n:'土耳其里拉',f:'🇹🇷',dp:2},{c:'SEK',n:'瑞典克朗',f:'🇸🇪',dp:2},{c:'NOK',n:'挪威克朗',f:'🇳🇴',dp:2},
+    {c:'DKK',n:'丹麥克朗',f:'🇩🇰',dp:2},{c:'AED',n:'阿聯迪拉姆',f:'🇦🇪',dp:2},{c:'SAR',n:'沙烏地里亞爾',f:'🇸🇦',dp:2},
+    {c:'PLN',n:'波蘭茲羅提',f:'🇵🇱',dp:2},{c:'CZK',n:'捷克克朗',f:'🇨🇿',dp:2}
   ];
-
-  // 內建參考價（1 EUR =），約 2026/6/24-25；取得即時匯率失敗時使用
-  const FALLBACK = {
-    TWD:36.00, USD:1.1340, JPY:183.35, CNY:7.70, GBP:0.8617, CHF:0.9202,
-    HKD:8.85, AUD:1.6503, SGD:1.48, KRW:1560, CAD:1.61, NZD:2.01
+  // 內建參考價：1 單位外幣 = ? 新台幣（約 2026 年中，取得即時匯率失敗時使用）
+  const FB = {
+    USD:31.60,EUR:35.85,JPY:0.1724,CNY:4.10,HKD:4.05,GBP:36.67,AUD:19.15,CHF:34.34,SGD:21.35,
+    KRW:0.02026,THB:0.855,MYR:6.85,PHP:0.504,IDR:0.001755,VND:0.001240,INR:0.3224,CAD:22.30,
+    NZD:18.16,ZAR:1.856,MXN:1.768,BRL:6.19,TRY:0.6716,SEK:3.238,NOK:3.326,DKK:4.790,
+    AED:8.605,SAR:8.427,PLN:8.470,CZK:1.475
   };
+  const PINNED = ['USD','JPY','EUR','CNY','HKD','KRW'];
+  const META = Object.fromEntries(CCYS.map(o=>[o.c,o]));
 
-  let rates = Object.assign({}, FALLBACK);
-  let eur = 1000;            // EUR 基準金額
-  let activeEl = null;       // 正在編輯的欄位（避免覆寫游標）
+  let twdPer = Object.assign({}, FB);   // 1 單位外幣 = ? TWD
+  let sel = 'USD';
+  let dir = 'toTWD';                     // 'toTWD' | 'toCCY'
+  let amount = 100;
 
   const $ = id => document.getElementById(id);
-  const rowsEl = $('rows');
-  const eurInput = $('eurInput');
+  const amtInput=$('amtInput'), resultInput=$('resultInput'), ccySel=$('ccy'),
+        rateInput=$('rateInput'), rateLine=$('rateLine'), swapBtn=$('swapBtn'),
+        fromLab=$('fromLab'), toLab=$('toLab'), fromUnit=$('fromUnit'), toUnit=$('toUnit'),
+        toName=$('toName'), toTag=$('toTag');
 
-  const fmt = (v, dp) => {
-    if(!isFinite(v)) return '0';
-    return Number(v).toLocaleString('en-US',{minimumFractionDigits:dp, maximumFractionDigits:dp});
-  };
-  const parseNum = s => {
-    const n = parseFloat(String(s).replace(/[^0-9.\-]/g,''));
-    return isNaN(n)?0:n;
-  };
+  const parseNum = s => { const n=parseFloat(String(s).replace(/[^0-9.\-]/g,'')); return isNaN(n)?0:n; };
+  const money = (v,dp) => isFinite(v)? Number(v).toLocaleString('en-US',{minimumFractionDigits:dp,maximumFractionDigits:dp}) : '0';
+  const rateDp = v => v>=100?3 : v>=1?4 : v>=0.1?4 : v>=0.01?5 : 7;
+  const fmtRate = v => money(v, rateDp(v));
 
-  // 建立列
+  // 建立下拉選單
   CCYS.forEach(o=>{
-    const row = document.createElement('div');
-    row.className='row';
-    row.innerHTML = `
-      <div class="cinfo">
-        <div class="badge">${o.c}</div>
-        <div class="cname">${o.n}<b>${o.c}</b></div>
-      </div>
-      <div class="rate-cell">
-        <input type="text" inputmode="decimal" data-rate="${o.c}" aria-label="${o.n}匯率">
-      </div>
-      <div class="amt-cell">
-        <input type="text" inputmode="decimal" data-amt="${o.c}" aria-label="${o.n}金額">
-      </div>`;
-    rowsEl.appendChild(row);
+    const opt=document.createElement('option');
+    opt.value=o.c; opt.textContent=`${o.f}  ${o.n}（${o.c}）`;
+    ccySel.appendChild(opt);
   });
+  ccySel.value=sel;
 
-  // 渲染（不覆寫使用者正在輸入的欄位）
-  function render(){
-    if(activeEl !== eurInput) eurInput.value = fmt(eur,2);
-    CCYS.forEach(o=>{
-      const rEl = document.querySelector(`[data-rate="${o.c}"]`);
-      const aEl = document.querySelector(`[data-amt="${o.c}"]`);
-      if(rEl !== activeEl) rEl.value = fmt(rates[o.c], o.rateDp);
-      if(aEl !== activeEl) aEl.value = fmt(eur * rates[o.c], o.amtDp);
+  function currentAmtDp(){ // 輸入端小數位
+    if(dir==='toTWD') return META[sel].dp;   // 輸入外幣
+    return 2;                                 // 輸入台幣
+  }
+  function resultDp(){
+    if(dir==='toTWD') return 2;               // 台幣
+    return META[sel].dp;                       // 外幣
+  }
+
+  function compute(){
+    const r = twdPer[sel] || 0;
+    let res;
+    if(dir==='toTWD') res = amount * r;        // 外幣→台幣
+    else res = r>0 ? amount / r : 0;           // 台幣→外幣
+    resultInput.value = money(res, resultDp());
+  }
+
+  function renderLabels(){
+    const m=META[sel];
+    if(dir==='toTWD'){
+      fromLab.textContent='換算來源'; toLab.textContent='換算結果';
+      fromUnit.textContent=m.c; toUnit.textContent='TWD';
+      toName.textContent='新台幣 TWD'; toTag.querySelector('.fx').textContent='🇹🇼';
+    }else{
+      fromLab.textContent='輸入台幣'; toLab.textContent='換算結果';
+      fromUnit.textContent='TWD'; toUnit.textContent=m.c;
+      toName.textContent=`${m.n} ${m.c}`; toTag.querySelector('.fx').textContent=m.f;
+    }
+    rateLine.innerHTML = `1 <b>${m.c}</b> = <b>${fmtRate(twdPer[sel]||0)}</b> TWD`;
+    rateInput.value = fmtRate(twdPer[sel]||0);
+    // 反向時，輸入框顯示台幣圖示語意，這裡僅切換單位文字
+  }
+
+  function renderPinned(){
+    const g=$('pgrid'); g.innerHTML='';
+    PINNED.forEach(c=>{
+      const m=META[c]; const v=twdPer[c]||0;
+      const el=document.createElement('div'); el.className='chip';
+      el.innerHTML=`<div class="c">${m.f} ${m.n}（${c}）</div><div class="v">${fmtRate(v)} <small>TWD</small></div>`;
+      g.appendChild(el);
     });
   }
 
-  // EUR 輸入
-  eurInput.addEventListener('focus', e=>activeEl=e.target);
-  eurInput.addEventListener('input', e=>{ eur = parseNum(e.target.value); render(); });
-  eurInput.addEventListener('blur', ()=>{ activeEl=null; render(); });
+  function renderAll(){ renderLabels(); compute(); renderPinned(); }
 
-  // 各幣別金額 / 匯率輸入
-  rowsEl.addEventListener('focus', e=>{ if(e.target.matches('input')) activeEl=e.target; }, true);
-  rowsEl.addEventListener('blur', e=>{ if(e.target.matches('input')){ activeEl=null; render(); } }, true);
-  rowsEl.addEventListener('input', e=>{
-    const t=e.target;
-    if(t.dataset.amt){
-      const c=t.dataset.amt, v=parseNum(t.value);
-      if(rates[c]>0){ eur = v / rates[c]; render(); }
-    } else if(t.dataset.rate){
-      const c=t.dataset.rate;
-      rates[c] = parseNum(t.value);
-      const aEl=document.querySelector(`[data-amt="${c}"]`);
-      if(aEl!==activeEl) aEl.value = fmt(eur*rates[c], CCYS.find(x=>x.c===c).amtDp);
-    }
+  // 事件
+  amtInput.addEventListener('input', e=>{ amount=parseNum(e.target.value); compute(); });
+  amtInput.addEventListener('blur', e=>{ e.target.value = money(amount, currentAmtDp()); });
+  ccySel.addEventListener('change', e=>{ sel=e.target.value; renderLabels(); compute(); });
+  rateInput.addEventListener('input', e=>{ twdPer[sel]=parseNum(e.target.value); rateLine.innerHTML=`1 <b>${sel}</b> = <b>${fmtRate(twdPer[sel])}</b> TWD`; compute(); renderPinned(); });
+
+  swapBtn.addEventListener('click', ()=>{
+    // 把目前結果搬到輸入端，維持連續感
+    const resVal = parseNum(resultInput.value);
+    dir = dir==='toTWD' ? 'toCCY' : 'toTWD';
+    swapBtn.classList.toggle('flip');
+    amount = resVal;
+    amtInput.value = money(amount, currentAmtDp());
+    renderLabels(); compute();
   });
 
-  // 取得即時匯率
-  const btn=$('refreshBtn'), btnTxt=$('refreshTxt');
-  const dot=$('dot'), sMain=$('statusMain'), sSub=$('statusSub');
-
-  function setStatus(mode, main, sub){
-    dot.className='dot '+(mode==='live'?'live':'local');
-    sMain.textContent=main; sSub.innerHTML=sub;
-  }
+  // 即時匯率：以 TWD 為基準，rates[C] = 1 TWD 可換多少 C → 1 C = 1/rates[C] TWD
+  const btn=$('refreshBtn'), btnTxt=$('refreshTxt'), dot=$('dot'), sMain=$('statusMain'), sSub=$('statusSub');
+  function setStatus(mode,main,sub){ dot.className='dot '+(mode==='live'?'live':''); sMain.textContent=main; sSub.innerHTML=sub; }
 
   async function fetchRates(){
     btn.classList.add('loading'); btn.disabled=true; btnTxt.textContent='更新中…';
     try{
-      const res = await fetch('https://open.er-api.com/v6/latest/EUR');
+      const res=await fetch('https://open.er-api.com/v6/latest/TWD');
       if(!res.ok) throw new Error('HTTP '+res.status);
-      const data = await res.json();
-      if(data.result!=='success' || !data.rates) throw new Error('bad payload');
+      const data=await res.json();
+      if(data.result!=='success'||!data.rates) throw new Error('bad payload');
       let hit=0;
-      CCYS.forEach(o=>{ if(typeof data.rates[o.c]==='number'){ rates[o.c]=data.rates[o.c]; hit++; } });
-      const t = data.time_last_update_utc ? new Date(data.time_last_update_utc) : new Date();
-      const ts = t.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
+      CCYS.forEach(o=>{ const r=data.rates[o.c]; if(typeof r==='number'&&r>0){ twdPer[o.c]=1/r; hit++; } });
+      const t=data.time_last_update_utc?new Date(data.time_last_update_utc):new Date();
+      const ts=t.toLocaleString('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
       setStatus('live','即時匯率 · '+ts, `資料來源：<span class="src">open.er-api.com</span>（${hit} 種幣別）`);
-      render();
+      renderAll();
     }catch(err){
-      setStatus('local','取得失敗 · 改用內建參考價', '請檢查網路或稍後再試；匯率可手動修改');
+      setStatus('local','取得失敗 · 改用內建參考價','請檢查網路或稍後再試；匯率可手動修改');
     }finally{
       btn.classList.remove('loading'); btn.disabled=false; btnTxt.textContent='更新即時匯率';
     }
   }
   btn.addEventListener('click', fetchRates);
 
-  // 初始：先用內建值渲染，再嘗試抓即時
-  render();
+  renderAll();
   fetchRates();
 })();
 </script>
